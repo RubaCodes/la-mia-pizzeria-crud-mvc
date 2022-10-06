@@ -21,7 +21,15 @@
                                     <span class="py-1">Price : @pizza.Price $</span>
                                     <p class="px-2"> Ingredienti: <small>@pizza.Description</small></p>
                                 </div>
+                                
                             </a>
+                            <div class="d-flex justify-content-center align-items-center gap-4">
+                                <a href="@Url.Action("Update", "Pizza", new{ id = pizza.PizzaId})" class="btn btn-primary my-3">Modifica</a>
+                                <form asp-action="Delete" asp-controller="Pizza" asp-route-id="@pizza.PizzaId" method="post">
+                                    <button class="btn btn-warning">Elimina</button>
+                                </form>
+
+                            </div>
                         </div>
                     }
                 }else{
