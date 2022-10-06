@@ -1,0 +1,70 @@
+﻿@*
+    Esercizi Controller Index
+*@
+
+<p>
+    1. Dichiarare una variabile valorizzandola con il nostro nome.
+    Dichiarare un'altra variabile valorizzandola con il nostro cognome.
+    Stampare il nostro nome e cognome all'interno di un tag h2.
+</p>
+@{
+    string name = "Alberto";
+    string surname = "Marcon";
+}
+<h2>@name @surname</h2>
+<hr />
+<p>
+    2. Creare una funzione che stampa la somma dei numeri che vanno da 1 a n (con n passato come parametro - n incluso)
+    Stampare dentro uno span il risultato.
+</p>
+@{
+     int sommaUnoaEnne(int n) {
+        return (n * (n + 1)) / 2;
+    }
+}
+<h2>Somma da 1 a 100: @sommaUnoaEnne(100)</h2>
+<hr />
+<p>3. Contare quante volte la lettera a è presente nalla frase "nel mezzo del cammin di nostra vita" e stampare questo valore in pagina</p>
+@{
+    string frase = "nel mezzo del cammin di nostra vita";
+    int count = 0;
+    foreach (char i in frase) {
+        if (i == 'a') count++;
+    }
+}
+<h2>Numero di 'a' nella frase "nel mezzo del cammin di nostra vita" : @count</h2>
+<hr />
+<p>4. Creare una List<int> di 20 numeri interi (generati random da 1 a 90, 1 e 90 inclusi) e mostrare in pagina solo i numeri compresi tra 20 e 70:</p>
+@{
+    int[] arrayInt = new int[20];
+    for(int i = 0; i < arrayInt.Length; i++)
+    {
+        arrayInt[i] = new Random().Next(1, 90);
+    }
+}
+<ul>
+    @foreach ( int intero  in arrayInt)
+    {
+        @if (intero > 20 && intero < 70)
+        {
+            <li>@intero</li>
+        }
+    }
+</ul>
+<hr />
+<p>
+    5. Stampare in pagina la data e l'ora attuale (usando la classe DateTime) con il formato anno-mese-giorno ore:minuti:secondi
+</p>
+<h2>@DateTime.Now</h2>
+<hr />
+<p>
+    6. Partendo dalla data di oggi (usando la classe DateTime) stampare in pagina
+    a. la data di 7 giorni fa
+    <br />
+    b. che giorno della settimana è oggi (il risultato dovrà essere il nome del giorno (Lunedì, Martedì, ...)
+    <br />
+    c. che giorno della settimana sarà nello stesso giorno e mese di oggi ma tra un anno (il risultato dovrà essere il nome del giorno (Lunedì, Martedì, ...)
+</p>
+<h2>7 giorni fa : @DateTime.Now.AddDays(-7)</h2>
+<h2>Giorno della settimana odierno:  @DateTime.Now.ToString("dddd");</h2>
+<h2>Giorno della settimana fra un anno: @DateTime.Now.AddYears(1).ToString("dddd");</h2>
