@@ -80,8 +80,8 @@ namespace la_mia_pizzeria_static.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id){
-            //Pizza pizza = pc.Pizzas.Find(x => x.PizzaId == id);
-            Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).First();
+            Pizza pizza = _pc.Pizzas.Find(id);
+            //Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).First();
             if (pizza == null) {
                 return NotFound("La pizza che stai eliminando non esiste");
             }
