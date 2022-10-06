@@ -49,16 +49,55 @@ namespace la_mia_pizzeria_static.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            using (PizzaContext pc = new PizzaContext()) { 
+            Pizza pizza = pc.Pizzas.Where(x => x.PizzaId == id).First();
+                if (pizza == null)
+                {
+                    return NotFound("La pizza che stai cercando di modificare non esiste");
+                }
+                return View(pizza);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(int id, Pizza model) {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            using (PizzaContext pc = new PizzaContext())
+            {
+                Pizza pizza = pc.Pizzas.Where(x => x.PizzaId == id).First();
+                if (pizza == null)
+                {
+                    return NotFound("La pizza che stai cercando di modificare non esiste");
+                }
+                pizza.Name = model.Name;
+                pizza.Description = model.Description;
+                pizza.Price = model.Price;
+                pizza.ImgPath = model.ImgPath;
+                pc.SaveChanges();
+                //oppure con update
+                //pc.Pizzas.Update(model);
+                return RedirectToAction("Index");
+            }
+
+        }
+
         //delete
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, Pizza data){
+        public IActionResult Delete(int id){
 
             using (PizzaContext pc = new PizzaContext()) {
                 //Pizza pizza = pc.Pizzas.Find(x => x.PizzaId == id);
                 Pizza pizza = pc.Pizzas.Where(x => x.PizzaId == id).First();
                 if (pizza == null) {
-                    return NotFound("La pizza che stai eliominando non esiste");
+                    return NotFound("La pizza che stai eliminando non esiste");
                 }
                 pc.Pizzas.Remove(pizza);
                 pc.SaveChanges();
