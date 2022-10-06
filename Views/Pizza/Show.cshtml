@@ -20,7 +20,12 @@
                     </div>
                 </div>
             </div>
-            <a href="@Url.Action("Index", "Pizza")" class="btn btn-danger my-3">Home</a>
+            <div class="d-flex justify-content-center align-items-center gap-4">
+                <a href="@Url.Action("Index", "Pizza")" class="btn btn-danger my-3">Home</a>
+                <form asp-action="Delete" asp-controller="Pizza" asp-route-id="@Model.PizzaId" method="post">
+                    <button class="btn btn-warning">Elimina</button>
+                </form>
+            </div>    
         </div>
     </section>
 </body>

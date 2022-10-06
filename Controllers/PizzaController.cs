@@ -34,7 +34,7 @@ namespace la_mia_pizzeria_static.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create( Pizza data) {
+        public IActionResult Create(Pizza data) {
             /*
              * validazione
              */
@@ -42,11 +42,28 @@ namespace la_mia_pizzeria_static.Controllers
             {
                 return View("Create", data);
             }
-            using (PizzaContext db = new PizzaContext()) {         
+            using (PizzaContext db = new PizzaContext()) {
                 db.Pizzas.Add(data);
-                db.SaveChanges();            
+                db.SaveChanges();
             }
-              return  RedirectToAction("Index");
+            return RedirectToAction("Index");
+        }
+
+        //delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id, Pizza data){
+
+            using (PizzaContext pc = new PizzaContext()) {
+                //Pizza pizza = pc.Pizzas.Find(x => x.PizzaId == id);
+                Pizza pizza = pc.Pizzas.Where(x => x.PizzaId == id).First();
+                if (pizza == null) {
+                    return NotFound("La pizza che stai eliominando non esiste");
+                }
+                pc.Pizzas.Remove(pizza);
+                pc.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
     }
 }
