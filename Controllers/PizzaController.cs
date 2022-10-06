@@ -7,23 +7,19 @@ namespace la_mia_pizzeria_static.Controllers
 {
     public class PizzaController : Controller
     {
+        PizzaContext _pc;
+        public PizzaController() {
+            _pc = new PizzaContext();
+        }
         public IActionResult Index()
         {
-            List<Pizza> menu = new List<Pizza>();
-            using (PizzaContext db = new PizzaContext())
-            {
-                menu = (from e in db.Pizzas select e).ToList();
-            }
+            List<Pizza> menu  =  (from e in _pc.Pizzas select e).ToList();
             return View(menu);
         }
 
         public IActionResult Show(int id)
         {
-            Pizza pizza = new Pizza();
-            using (PizzaContext db = new PizzaContext())
-            {
-                pizza = db.Pizzas.Where(x => x.PizzaId == id).FirstOrDefault();
-            }
+            Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).FirstOrDefault();
             return View(pizza);
         }
 
@@ -42,24 +38,20 @@ namespace la_mia_pizzeria_static.Controllers
             {
                 return View("Create", data);
             }
-            using (PizzaContext db = new PizzaContext()) {
-                db.Pizzas.Add(data);
-                db.SaveChanges();
-            }
+            _pc.Pizzas.Add(data);
+            _pc.SaveChanges();
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Update(int id)
         {
-            using (PizzaContext pc = new PizzaContext()) { 
-            Pizza pizza = pc.Pizzas.Where(x => x.PizzaId == id).First();
+            Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).First();
                 if (pizza == null)
                 {
                     return NotFound("La pizza che stai cercando di modificare non esiste");
                 }
                 return View(pizza);
-            }
         }
 
         [HttpPost]
@@ -69,40 +61,33 @@ namespace la_mia_pizzeria_static.Controllers
             {
                 return View(model);
             }
-            using (PizzaContext pc = new PizzaContext())
+            Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).First();
+            if (pizza == null)
             {
-                Pizza pizza = pc.Pizzas.Where(x => x.PizzaId == id).First();
-                if (pizza == null)
-                {
-                    return NotFound("La pizza che stai cercando di modificare non esiste");
-                }
-                pizza.Name = model.Name;
-                pizza.Description = model.Description;
-                pizza.Price = model.Price;
-                pizza.ImgPath = model.ImgPath;
-                pc.SaveChanges();
-                //oppure con update
-                //pc.Pizzas.Update(model);
-                return RedirectToAction("Index");
+                return NotFound("La pizza che stai cercando di modificare non esiste");
             }
-
-        }
+            pizza.Name = model.Name;
+            pizza.Description = model.Description;
+            pizza.Price = model.Price;
+            pizza.ImgPath = model.ImgPath;
+            _pc.SaveChanges();
+            //oppure con update
+            //pc.Pizzas.Update(model);
+            return RedirectToAction("Index");
+            }
 
         //delete
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id){
-
-            using (PizzaContext pc = new PizzaContext()) {
-                //Pizza pizza = pc.Pizzas.Find(x => x.PizzaId == id);
-                Pizza pizza = pc.Pizzas.Where(x => x.PizzaId == id).First();
-                if (pizza == null) {
-                    return NotFound("La pizza che stai eliminando non esiste");
-                }
-                pc.Pizzas.Remove(pizza);
-                pc.SaveChanges();
-                return RedirectToAction("Index");
+            //Pizza pizza = pc.Pizzas.Find(x => x.PizzaId == id);
+            Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).First();
+            if (pizza == null) {
+                return NotFound("La pizza che stai eliminando non esiste");
             }
-        }
+            _pc.Pizzas.Remove(pizza);
+            _pc.SaveChanges();
+            return RedirectToAction("Index");
+        } 
     }
 }
