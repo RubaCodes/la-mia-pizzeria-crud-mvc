@@ -7,6 +7,7 @@
         
         public categoryPizzas() {
             Pizza = new Pizza();
+            Categories = new List<Category>();
         }
     }
 

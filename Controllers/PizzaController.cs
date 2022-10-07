@@ -15,7 +15,6 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Index()
         {
             List<Pizza> menu = _pc.Pizzas.Include("Category").ToList();
-
             return View(menu);
         }
 
@@ -29,7 +28,7 @@ namespace la_mia_pizzeria_static.Controllers
          */
         [HttpGet]
         public IActionResult Create() {
-            categoryPizzas categoryPizzas = new categoryPizzas();
+            categoryPizzas categoryPizzas = new();
             categoryPizzas.Categories = _pc.Categories.ToList();
             return View(categoryPizzas);
         }
@@ -39,11 +38,11 @@ namespace la_mia_pizzeria_static.Controllers
             /*
              * validazione
              */
-            //if (!ModelState.IsValid)
-            //{
-            //    data.Categories = _pc.Categories.ToList();
-            //    return View("Create", data);
-            //}
+            if (!ModelState.IsValid)
+            {
+                data.Categories = _pc.Categories.ToList();
+                return View("Create", data);
+            }
 
             _pc.Pizzas.Add(data.Pizza);
             _pc.SaveChanges();
@@ -67,10 +66,11 @@ namespace la_mia_pizzeria_static.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Update( int id,  categoryPizzas model) {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(model);
-            //}
+            if (!ModelState.IsValid)
+            {
+                model.Categories = _pc.Categories.ToList();
+                return View(model);
+            }
             Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).First();
             if (pizza == null)
             {
