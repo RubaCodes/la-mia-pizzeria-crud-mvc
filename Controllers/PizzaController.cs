@@ -1,6 +1,7 @@
 ﻿using la_mia_pizzeria_static.Contexts;
 using la_mia_pizzeria_static.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace la_mia_pizzeria_static.Controllers
@@ -13,32 +14,39 @@ namespace la_mia_pizzeria_static.Controllers
         }
         public IActionResult Index()
         {
-            List<Pizza> menu  =  (from e in _pc.Pizzas select e).ToList();
+            List<Pizza> menu = _pc.Pizzas.Include("Category").ToList();
+
             return View(menu);
         }
 
         public IActionResult Show(int id)
         {
-            Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).FirstOrDefault();
+            Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).Include("Category").FirstOrDefault();
             return View(pizza);
         }
 
-
+        /*
+         * CREATE
+         */
         [HttpGet]
         public IActionResult Create() {
-            return View();
+            categoryPizzas categoryPizzas = new categoryPizzas();
+            categoryPizzas.Categories = _pc.Categories.ToList();
+            return View(categoryPizzas);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Pizza data) {
+        public IActionResult Create(categoryPizzas data) {
             /*
              * validazione
              */
-            if (!ModelState.IsValid)
-            {
-                return View("Create", data);
-            }
-            _pc.Pizzas.Add(data);
+            //if (!ModelState.IsValid)
+            //{
+            //    data.Categories = _pc.Categories.ToList();
+            //    return View("Create", data);
+            //}
+
+            _pc.Pizzas.Add(data.Pizza);
             _pc.SaveChanges();
             return RedirectToAction("Index");
         }
