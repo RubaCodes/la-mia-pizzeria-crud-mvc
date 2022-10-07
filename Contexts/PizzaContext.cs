@@ -5,6 +5,7 @@ namespace la_mia_pizzeria_static.Contexts
     public class PizzaContext : DbContext
     {
         public DbSet<Pizza> Pizzas { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilding)
         {
