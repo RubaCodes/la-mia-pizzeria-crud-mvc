@@ -24,7 +24,6 @@ namespace la_mia_pizzeria_static.Controllers
             Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).Include("Category").FirstOrDefault();
             return View(pizza);
         }
-
         /*
          * CREATE
          */
@@ -59,28 +58,30 @@ namespace la_mia_pizzeria_static.Controllers
                 {
                     return NotFound("La pizza che stai cercando di modificare non esiste");
                 }
-                return View(pizza);
+            categoryPizzas ctp = new categoryPizzas();
+            ctp.Categories = _pc.Categories.ToList();
+            ctp.Pizza = pizza;
+            return View(ctp);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update( int id,  Pizza model) {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+        public IActionResult Update( int id,  categoryPizzas model) {
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(model);
+            //}
             Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).First();
             if (pizza == null)
             {
                 return NotFound("La pizza che stai cercando di modificare non esiste");
             }
-            pizza.Name = model.Name;
-            pizza.Description = model.Description;
-            pizza.Price = model.Price;
-            pizza.ImgPath = model.ImgPath;
+            pizza.Name = model.Pizza.Name;
+            pizza.Description = model.Pizza.Description;
+            pizza.Price = model.Pizza.Price;
+            pizza.ImgPath = model.Pizza.ImgPath;
+            pizza.CategoryId = model.Pizza.CategoryId;
             _pc.SaveChanges();
-            //oppure con update
-            //pc.Pizzas.Update(model);
             return RedirectToAction("Index");
             }
 
@@ -89,7 +90,6 @@ namespace la_mia_pizzeria_static.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id){
             Pizza pizza = _pc.Pizzas.Find(id);
-            //Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).First();
             if (pizza == null) {
                 return NotFound("La pizza che stai eliminando non esiste");
             }
