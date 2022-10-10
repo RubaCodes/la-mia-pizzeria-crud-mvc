@@ -30,6 +30,7 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Create() {
             categoryPizzas categoryPizzas = new();
             categoryPizzas.Categories = _pc.Categories.ToList();
+            categoryPizzas.Ingredients = _pc.Ingredients.ToList();
             return View(categoryPizzas);
         }
         [HttpPost]
@@ -40,10 +41,12 @@ namespace la_mia_pizzeria_static.Controllers
              */
             if (!ModelState.IsValid)
             {
+                data.Ingredients = _pc.Ingredients.ToList();
                 data.Categories = _pc.Categories.ToList();
                 return View("Create", data);
             }
 
+            data.Pizza.Ingredients = _pc.Ingredients.Where(x => data.SelectedIngredients.Contains(x.Id)).ToList();
             _pc.Pizzas.Add(data.Pizza);
             _pc.SaveChanges();
             return RedirectToAction("Index");

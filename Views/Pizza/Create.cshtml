@@ -44,6 +44,16 @@
                     </select>
                     <span asp-validation-for="Pizza.CategoryId" class="text-danger"></span>
                 </div>
+                @*Tentativo di checkbox*@
+                <div class="mb-3">
+                    <label class="form-label" >Ingredienti</label>
+                    <select multiple="multiple" class="form-control" asp-for="SelectedIngredients">
+                    @foreach (Ingredient ing in Model.Ingredients)
+                    {
+                        <option value="@ing.Id">@ing.Title</option>
+                    }
+                    </select>                
+                </div>
                 <button type="submit" class="btn btn-danger">Crea Pizza</button>
             </form>
         </div>
