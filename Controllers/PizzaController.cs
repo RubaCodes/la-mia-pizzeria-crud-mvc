@@ -55,13 +55,14 @@ namespace la_mia_pizzeria_static.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).First();
+            Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).Include("Ingredients").First();
                 if (pizza == null)
                 {
                     return NotFound("La pizza che stai cercando di modificare non esiste");
                 }
             categoryPizzas ctp = new categoryPizzas();
             ctp.Categories = _pc.Categories.ToList();
+            ctp.Ingredients = _pc.Ingredients.ToList();
             ctp.Pizza = pizza;
             return View(ctp);
         }
@@ -71,19 +72,24 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Update( int id,  categoryPizzas model) {
             if (!ModelState.IsValid)
             {
+                model.Ingredients = _pc.Ingredients.ToList();
                 model.Categories = _pc.Categories.ToList();
                 return View(model);
             }
-            Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).First();
+            Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).Include("Ingredients").First();
             if (pizza == null)
             {
                 return NotFound("La pizza che stai cercando di modificare non esiste");
             }
+
+            model.Pizza.Ingredients = _pc.Ingredients.Where(x => model.SelectedIngredients.Contains(x.Id)).ToList();
+
             pizza.Name = model.Pizza.Name;
             pizza.Description = model.Pizza.Description;
             pizza.Price = model.Pizza.Price;
             pizza.ImgPath = model.Pizza.ImgPath;
             pizza.CategoryId = model.Pizza.CategoryId;
+            pizza.Ingredients = model.Pizza.Ingredients;
             _pc.SaveChanges();
             return RedirectToAction("Index");
             }
