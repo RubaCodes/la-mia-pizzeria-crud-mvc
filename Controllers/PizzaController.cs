@@ -76,14 +76,15 @@ namespace la_mia_pizzeria_static.Controllers
                 model.Categories = _pc.Categories.ToList();
                 return View(model);
             }
+            //prendo la pizza dal bd con i suoi ingredienti
             Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).Include("Ingredients").First();
             if (pizza == null)
             {
                 return NotFound("La pizza che stai cercando di modificare non esiste");
             }
-
+            //fetch nuovi ingredienti dal db
             model.Pizza.Ingredients = _pc.Ingredients.Where(x => model.SelectedIngredients.Contains(x.Id)).ToList();
-
+            //riassegnazioni
             pizza.Name = model.Pizza.Name;
             pizza.Description = model.Pizza.Description;
             pizza.Price = model.Pizza.Price;
@@ -102,6 +103,8 @@ namespace la_mia_pizzeria_static.Controllers
             if (pizza == null) {
                 return NotFound("La pizza che stai eliminando non esiste");
             }
+
+            //cascade
             _pc.Pizzas.Remove(pizza);
             _pc.SaveChanges();
             return RedirectToAction("Index");
