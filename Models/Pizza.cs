@@ -1,6 +1,5 @@
 using la_mia_pizzeria_static.Validation;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 
 namespace la_mia_pizzeria_static.Models
 {
@@ -28,5 +27,6 @@ namespace la_mia_pizzeria_static.Models
 
         public int? CategoryId { get; set; } = null;
         public Category? Category { get; set; }
+        public List<Ingredient>? Ingredients { get; set; }
     }
 }
