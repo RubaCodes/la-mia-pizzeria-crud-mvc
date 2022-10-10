@@ -50,7 +50,14 @@
                     <select multiple="multiple" class="form-control" asp-for="SelectedIngredients">
                     @foreach (Ingredient ing in Model.Ingredients)
                     {
-                        <option value="@ing.Id">@ing.Title</option>
+                            if (Model.SelectedIngredients.Contains(ing.Id))
+                            {
+                                <option selected value="@ing.Id">@ing.Title</option>
+                            }
+                            else {
+                                <option value="@ing.Id">@ing.Title</option>
+                            }
+
                     }
                     </select>                
                 </div>
