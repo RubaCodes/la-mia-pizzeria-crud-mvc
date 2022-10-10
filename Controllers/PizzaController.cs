@@ -14,13 +14,13 @@ namespace la_mia_pizzeria_static.Controllers
         }
         public IActionResult Index()
         {
-            List<Pizza> menu = _pc.Pizzas.Include("Category").ToList();
+            List<Pizza> menu = _pc.Pizzas.Include("Category").Include("Ingredients").ToList();
             return View(menu);
         }
 
         public IActionResult Show(int id)
         {
-            Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).Include("Category").FirstOrDefault();
+            Pizza pizza = _pc.Pizzas.Where(x => x.PizzaId == id).Include("Category").Include("Ingredients").FirstOrDefault();
             return View(pizza);
         }
         /*

@@ -20,7 +20,13 @@
                                         <h3 class="py-1 text-danger">@pizza.Name</h3>
                                     <span class="py-1">@pizza.Category.Name</span>
                                     <span class="py-1">Price : @pizza.Price $</span>
-                                    <p class="px-2"> Ingredienti: <small>@pizza.Description</small></p>
+                                    <p class="px-2"> Descrizione: <small>@pizza.Description</small></p>
+                                    <ul>
+                                        @foreach (Ingredient item in pizza?.Ingredients)
+                                        {
+                                            <li>@item.Title</li>
+                                        }
+                                    </ul>
                                 </div>
                                 
                             </a>

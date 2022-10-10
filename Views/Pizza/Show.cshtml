@@ -18,6 +18,12 @@
                             <span class="py-1">Price : @Model.Price $</span>
                         </div>
                         <p class="px-2"> Ingredienti: <small>@Model.Description</small></p>
+                        <ul>
+                            @foreach (Ingredient item in Model?.Ingredients)
+                            {
+                                <li>@item.Title</li>
+                            }
+                        </ul>
                     </div>
                 </div>
             </div>
