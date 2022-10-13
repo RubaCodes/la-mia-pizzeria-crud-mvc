@@ -16,5 +16,10 @@ namespace la_mia_pizzeria_static.Controllers
             List<Pizza> pizze = _context.Pizzas.Include("Ingredients").Include("Category").ToList();
             return View(pizze);
         }
+        public IActionResult Show(int id)
+        {
+            Pizza pizza = _context.Pizzas.Where(x => x.PizzaId == id).Include("Category").Include("Ingredients").FirstOrDefault();
+            return View(pizza);
+        }
     }
 }
