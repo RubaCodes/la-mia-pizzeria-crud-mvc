@@ -12,7 +12,7 @@ using la_mia_pizzeria_static.Contexts;
 namespace la_mia_pizzeria_static.Migrations
 {
     [DbContext(typeof(PizzaContext))]
-    [Migration("20221013100732_CreateTableIdentity")]
+    [Migration("20221013104735_CreateTableIdentity")]
     partial class CreateTableIdentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -252,10 +252,12 @@ namespace la_mia_pizzeria_static.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -292,10 +294,12 @@ namespace la_mia_pizzeria_static.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");

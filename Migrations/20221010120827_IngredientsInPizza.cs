@@ -4,7 +4,7 @@
 
 namespace la_mia_pizzeria_static.Migrations
 {
-    public partial class TagsInPosts : Migration
+    public partial class IngredientsInPizza : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

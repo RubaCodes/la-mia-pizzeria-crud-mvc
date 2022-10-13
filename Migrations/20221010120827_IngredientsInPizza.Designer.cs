@@ -12,8 +12,8 @@ using la_mia_pizzeria_static.Contexts;
 namespace la_mia_pizzeria_static.Migrations
 {
     [DbContext(typeof(PizzaContext))]
-    [Migration("20221010120827_TagsInPosts")]
-    partial class TagsInPosts
+    [Migration("20221010120827_IngredientsInPizza")]
+    partial class IngredientsInPizza
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
