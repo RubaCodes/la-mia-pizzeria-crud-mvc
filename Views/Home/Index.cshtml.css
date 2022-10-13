@@ -1,0 +1,9 @@
+﻿div.card {
+    border-color: red;
+    box-shadow: 0px 1px 5px 5px rgba(255,15,15,0.61);
+}
+
+img {
+    object-fit: cover;
+    object-position: center;
+}

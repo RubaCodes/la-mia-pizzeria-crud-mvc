@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model List<Pizza>
+
+<body>
+    <section class="text-center  " id="pizza-library">
+        <div class="container">
+            <div class="row">
+                @if (Model.Count > 0)
+                {
+                    @foreach (Pizza pizza in Model)
+                    {
+                        <div class="col-4 py-2">
+                            <a class="text-decoration-none  text-danger" href="@Url.Action("Show","Pizza", new{ Id = pizza.PizzaId})">
+                                <div class="card bg-dark bg-gradient text-white border-2  rounded-lg">
+                                    @*@pizza.PizzaId  Id asseganto correttamente*@ 
+                                    <img class="img-fluid" src="@pizza.ImgPath" alt="@pizza.Name" />                              
+                                        <h3 class="py-1 text-danger">@pizza.Name</h3>
+                                    <span class="py-1">@pizza.Category.Name</span>
+                                    <span class="py-1">Price : @pizza.Price $</span>
+                                    <p class="px-2"> Descrizione: <small>@pizza.Description</small></p>
+                                    <ul>
+                                        @foreach (Ingredient item in pizza?.Ingredients)
+                                        {
+                                            <li>@item.Title</li>
+                                        }
+                                    </ul>
+                                </div>
+                                
+                            </a>
+                        </div>
+                    }
+                }else{
+                    <h2 class="text-danger">Il menu e'al momento vuoto</h2>
+                    <a href="@Url.Action("Create", "Pizza")" class="btn btn-danger">Inserisci una nuova pizza!!</a>
+                }
+            </div>
+        </div>
+    </section>
+</body>
